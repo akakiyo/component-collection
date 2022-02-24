@@ -28,11 +28,11 @@ const AlertTemplate = ({ style, options, message, close }) => {
         <Type>{title}</Type>
 
         <Message>
-          {message.split("\n").map((text) => (
-            <>
+          {message.split("\n").map((text, i) => (
+            <span key={String(i) + "_" + text}>
               <span>{text}</span>
               <br />
-            </>
+            </span>
           ))}
         </Message>
       </div>

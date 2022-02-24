@@ -1,14 +1,24 @@
 import { useAlert } from "react-alert";
-import { customConfirm } from "./ConfirmTemplate";
+import { customConfirm } from "./Confirmation";
 
 const Alert = () => {
   const customAlert = useAlert();
+  const confirmJudge = async () => {
+    console.log("実行");
+    if (await customConfirm("データを削除してもよろしいですか？")) {
+      console.log("true");
+    } else {
+      console.log("false");
+    }
+  };
   const handleClose = () => {
     console.log("閉じる");
   };
   return (
     <>
-      <button onClick={() => alert("結合処理に失敗")}>デフォルトのalert</button>
+      <button onClick={() => alert("処理に失敗しました")}>
+        デフォルトのalert
+      </button>
       <button
         onClick={() => window.confirm("データを削除してもよろしいですか？")}
       >
@@ -48,15 +58,7 @@ const Alert = () => {
       >
         情報
       </button>
-      <button
-        onClick={() =>
-          customConfirm({
-            confirmation: "データを削除してもよろしいですか?",
-          })
-        }
-      >
-        確認
-      </button>
+      <button onClick={() => confirmJudge()}>確認</button>
     </>
   );
 };

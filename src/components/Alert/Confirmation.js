@@ -1,11 +1,17 @@
 import styled from "styled-components";
+import { confirmable, createConfirmation } from "react-confirm";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import { createConfirmation } from "react-confirm";
 import { useState } from "react";
-
-const ConfirmTemplate = ({ proceed, confirmation, options }) => {
+const Confirmation = ({
+  proceedLabel = "OK",
+  cancelLabel = "キャンセル",
+  title,
+  confirmation,
+  proceed,
+  enableEscape = true,
+}) => {
   const [show, setShow] = useState(true);
   return (
     <Modal open={show}>
@@ -13,16 +19,30 @@ const ConfirmTemplate = ({ proceed, confirmation, options }) => {
         <WarningAmberIcon />
         <Type>確認</Type>
         <Message>
-          {confirmation.split("\n").map((text) => (
-            <>
+          {confirmation.split("\n").map((text, i) => (
+            <span key={String(i) + "_" + text}>
               <span>{text}</span>
               <br />
-            </>
+            </span>
           ))}
         </Message>
         <ButtonArea>
-          <CancelButton onClick={() => setShow(false)}>キャンセル</CancelButton>
-          <OKButton onClick={() => setShow(false)}>OK</OKButton>
+          <CancelButton
+            onClick={() => {
+              setShow(false);
+              proceed(false);
+            }}
+          >
+            {cancelLabel}
+          </CancelButton>
+          <OKButton
+            onClick={() => {
+              setShow(false);
+              proceed(true);
+            }}
+          >
+            {proceedLabel}
+          </OKButton>
         </ButtonArea>
       </Container>
     </Modal>
@@ -80,4 +100,16 @@ const OKButton = styled.button`
     background-color: #ffffff8f;
   }
 `;
-export const customConfirm = createConfirmation(ConfirmTemplate);
+export function customConfirm(
+  confirmation,
+  proceedLabel,
+  cancelLabel,
+  options = {}
+) {
+  return createConfirmation(confirmable(Confirmation))({
+    confirmation,
+    proceedLabel,
+    cancelLabel,
+    ...options,
+  });
+}
