@@ -12,7 +12,14 @@ const ConfirmTemplate = ({ proceed, confirmation, options }) => {
       <Container>
         <WarningAmberIcon />
         <Type>確認</Type>
-        <Message>{confirmation}</Message>
+        <Message>
+          {confirmation.split("\n").map((text) => (
+            <>
+              <span>{text}</span>
+              <br />
+            </>
+          ))}
+        </Message>
         <ButtonArea>
           <CancelButton onClick={() => setShow(false)}>キャンセル</CancelButton>
           <OKButton onClick={() => setShow(false)}>OK</OKButton>
@@ -73,4 +80,4 @@ const OKButton = styled.button`
     background-color: #ffffff8f;
   }
 `;
-export const confirm = createConfirmation(ConfirmTemplate);
+export const customConfirm = createConfirmation(ConfirmTemplate);
