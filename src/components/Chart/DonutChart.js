@@ -2,9 +2,30 @@ import Chart from "react-apexcharts";
 import { useState } from "react";
 
 const DonutChart = () => {
-  const [options, setOptions] = useState({});
-  const [series, setSeries] = useState([44, 55, 41, 17, 15]);
-  const [labels, setLabels] = useState(["A", "B", "C", "D", "E"]);
+  const [options, setOptions] = useState({
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              showAlways: true,
+              label: "アンケート対象者数",
+              formatter: (w) => {
+                const total = w.globals.seriesTotals.reduce((a, b) => {
+                  return a + b;
+                }, 0);
+                return total + "人";
+              },
+            },
+          },
+        },
+      },
+    },
+    labels: ["はい", "いいえ", "そうでもない"],
+  });
+  const [series, setSeries] = useState([100, 79, 21]);
 
   return (
     <div className="row">

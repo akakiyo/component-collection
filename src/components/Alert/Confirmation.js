@@ -100,6 +100,7 @@ const OKButton = styled.button`
     background-color: #ffffff8f;
   }
 `;
+
 export function customConfirm(
   confirmation,
   proceedLabel,
